@@ -93,6 +93,7 @@ class KNearestNeighbor(object):
         num_train = self.X_train.shape[0]
         dists = np.zeros((num_test, num_train))
         for i in range(num_test):
+           dists[i,:] = np.sqrt(np.sum(np.square(self.X_train-X[i,:]),axis=1))
             #######################################################################
             # TODO:                                                               #
             # Compute the l2 distance between the ith test point and all training #
@@ -100,7 +101,7 @@ class KNearestNeighbor(object):
             # Do not use np.linalg.norm().                                        #
             #######################################################################
             # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-           dists[i,:] = np.sqrt(np.sum(np.square(self.X_train-X[i,:]),axis=1))
+          
            pass
 
             # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
@@ -130,10 +131,9 @@ class KNearestNeighbor(object):
         #       and two broadcast sums.                                         #
         #########################################################################
         # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
-        X_i = np.sum(np.square(X),axis = 1).reshape(-1,1)
-        self.X_train_j = np.sum(np.square(self.X_train),axis = 1)
-        mat_dot = np.dot(X,self.X_train.T)
-        dists = np.sqrt(X_i + self.X_train_j - 2*mat_dot)
+        
+        dists = np.sqrt(np.sum(np.square(X),axis = 1).reshape(-1,1) + 
+        np.sum(np.square(self.X_train),axis = 1) - 2*np.dot(X,self.X_train.T))
 
         pass
 
@@ -170,6 +170,7 @@ class KNearestNeighbor(object):
             a = dists[i].argsort()
             y_ascend = self.y_train[a]
             closest_y = y_ascend[:k]
+            
 
 
             pass
